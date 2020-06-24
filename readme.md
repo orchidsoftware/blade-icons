@@ -1,3 +1,5 @@
+# Inline SVG Icons For Blade
+
 ## Introduction
 
 This is a package for the laravel framework that allows 
