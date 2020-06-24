@@ -2,7 +2,6 @@
 
 
 <a href="https://github.com/orchidsoftware/blade-icons/actions"><img src="https://github.com/orchidsoftware/blade-icons/workflows/Tests/badge.svg"></a>
-<a href="https://codecov.io/gh/orchidsoftware/blade-icons"><img src="https://codecov.io/gh/orchidsoftware/blade-icons/branch/master/graph/badge.svg" /></a>
 <a href="https://packagist.org/packages/orchid/blade-icons"><img alt="Packagist" src="https://img.shields.io/packagist/dt/orchid/blade-icons.svg"></a>
 <a href="https://packagist.org/packages/orchid/blade-icons-icons"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/orchid/blade-icons.svg"></a>
 
