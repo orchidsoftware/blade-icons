@@ -1,0 +1,37 @@
+{
+    "name": "orchid/blade-icons",
+    "description": "An easy way inline SVG images in your Blade templates.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "laravel/framework": "^7.0",
+        "ext-dom": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "authors": [
+        {
+            "name": "tabuna",
+            "email": "bliz48rus@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Orchid\\Icons\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Orchid\\Icons\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Orchid\\Icons\\IconServiceProvider"
+            ]
+        }
+    }
+}
