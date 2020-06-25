@@ -13,7 +13,7 @@ jobs:
         laravel: [7.*]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: ^7.0
+          - laravel: 7.*
             testbench: 5.*
 
     name: P${{ matrix.php }} - ${{ matrix.os }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
@@ -37,7 +37,6 @@ jobs:
 
       - name: Install dependencies 🔧
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit 🧪
