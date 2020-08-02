@@ -63,13 +63,6 @@ You can also list some attributes that should be applied to your icon:
     height="2em" />
 ```
 
-## Donate & Support
-
-Since the existence of a healthy open source ecosystem creates real value for the software industry, believe it is fair for maintainers and authors of such software to be compensated for their work with real money.
-
-If you would like to support development by making a donation you can do so [here](https://www.paypal.me/tabuna/10usd). &#x1F60A;
-
-
 ## License
 
 The MIT License (MIT). Please see [License File](license.md) for more information.
