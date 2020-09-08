@@ -1,4 +1,4 @@
-# Inline SVG Icons For Blade
+# Inline SVG Icons For Laravel Blade
 
 
 <a href="https://github.com/orchidsoftware/blade-icons/actions"><img src="https://github.com/orchidsoftware/blade-icons/workflows/Tests/badge.svg"></a>
@@ -6,12 +6,10 @@
 <a href="https://packagist.org/packages/orchid/blade-icons"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/orchid/blade-icons.svg"></a>
 
 
-
-
 ## Introduction
 
-This is a package for the laravel framework that allows 
-you to use the blade component to insert inline svg images.
+This is a package for the Laravel framework that allows 
+you to use the Blade component to insert inline svg images.
 
 ## Installation
 
