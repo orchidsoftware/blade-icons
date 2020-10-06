@@ -124,9 +124,9 @@ class IconComponent extends Component
         collect($this->data())
             ->except('attributes')
             ->filter(function ($value) {
-                return $value !== null;
+                return $value !== null && is_string($value);
             })
-            ->each(function ($value, $key) use ($item) {
+            ->each(function (string $value, string $key) use ($item) {
                 $item->setAttribute($key, $value);
             });
 
