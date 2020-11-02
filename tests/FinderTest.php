@@ -57,9 +57,9 @@ class FinderTest extends TestUnitCase
         $delta_second = $second - $first;
 
         $this->assertNotNull($iconArrayNotFound[0]);
-        $this->assertLessThan($delta_first*2, $delta_second,'$delta_first: '.$delta_first.', $delta_second: '.$delta_second);
+        $this->assertLessThan($delta_first * 2, $delta_second, '$delta_first: ' . $delta_first . ', $delta_second: ' . $delta_second);
     }
-    
+
     public function testRegisterNotIcon(): void
     {
         $start = microtime(true);
@@ -72,10 +72,10 @@ class FinderTest extends TestUnitCase
         $delta_second = $second - $first;
 
         $this->assertNull($iconArrayNotFound[0]);
-        $this->assertLessThan($delta_first*2, $delta_second,'$delta_first: '.$delta_first.', $delta_second: '.$delta_second);
+        $this->assertLessThan($delta_first * 2, $delta_second, '$delta_first: ' . $delta_first . ', $delta_second: ' . $delta_second);
     }
-    
-    
+
+
     /**
      * @return IconFinder
      */
@@ -83,16 +83,18 @@ class FinderTest extends TestUnitCase
     {
         return $this->app->make(IconFinder::class);
     }
-    
+
     /**
-     * @param $iconArray
-     * @param int $count
+     * @param        $iconArray
+     * @param string $icon
+     * @param int    $count
      */
-    function addIconToArray(&$iconArray, $icon='house', $count = 100) {
+    private function addIconToArray(&$iconArray, $icon = 'house', $count = 100): void
+    {
         $finder = $this->getIconFinder()
             ->registerIconDirectory('foo', __DIR__ . '/stubs/foo');
-        for ($i=0; $i<$count; $i++){
-            $iconArray[] = $finder->loadFile('foo.'.$icon);
+        for ($i = 0; $i < $count; $i++) {
+            $iconArray[] = $finder->loadFile('foo.' . $icon);
         }
     }
 }

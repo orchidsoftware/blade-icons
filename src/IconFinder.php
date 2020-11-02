@@ -18,19 +18,27 @@ class IconFinder
     private $directories;
 
     /**
-     * @var IconFinder
+     * Previously processed icons
+     *
+     * @var Collection
      */
-    private $finder;
+    private $cache;
 
     /**
      * IconFinder constructor.
-     *
-     * @param Finder $finder
      */
-    public function __construct(Finder $finder)
+    public function __construct()
     {
-        $this->finder = $finder;
         $this->directories = collect();
+        $this->cache = collect();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDirectories(): Collection
+    {
+        return $this->directories;
     }
 
     /**
@@ -55,17 +63,16 @@ class IconFinder
      */
     public function loadFile(string $name): ?string
     {
-        $prefix = Str::beforeLast($name, '.');
-        $name = Str::afterLast($name, '.') . '.svg';
+        if ($this->cache->has($name)) {
+            $this->cache->get($name);
+        }
 
-        $icons = $this->finder
-            ->ignoreUnreadableDirs()
-            ->followLinks()
-            ->in(
-                $this->directories->get($prefix, $this->directories->toArray())
-            )
-            ->files()
-            ->name($name);
+        $prefix = Str::beforeLast($name, '.');
+        $nameIcon = Str::afterLast($name, '.') . '.svg';
+
+        $dirs = $this->directories->get($prefix, $this->directories->toArray());
+
+        $icons = $this->getFinder()->in($dirs);
 
         /** @var PathFilterIterator $iterator */
         $iterator = tap($icons->getIterator())
@@ -73,10 +80,25 @@ class IconFinder
 
         /** @var SplFileInfo|null $file */
         $file = collect($iterator)
-            ->filter(static function (SplFileInfo $file) use ($name) {
-                return $file->getFilename() === $name;
+            ->filter(static function (SplFileInfo $file) use ($nameIcon) {
+                return $file->getFilename() === $nameIcon;
             })->first();
 
-        return optional($file)->getContents();
+        $icon = optional($file)->getContents();
+
+        $this->cache->put($name, $icon);
+
+        return $icon;
+    }
+
+    /**
+     * @return Finder
+     */
+    protected function getFinder(): Finder
+    {
+        return (new Finder())
+            ->ignoreUnreadableDirs()
+            ->followLinks()
+            ->ignoreDotFiles(true);
     }
 }

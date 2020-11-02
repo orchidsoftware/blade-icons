@@ -16,7 +16,7 @@ class IconServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(IconFinder::class, static function () {
-            return new IconFinder(new Finder());
+            return new IconFinder();
         });
 
         Blade::component('orchid-icon', IconComponent::class);

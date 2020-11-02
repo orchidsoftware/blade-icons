@@ -6,15 +6,9 @@ namespace Orchid\Icons;
 
 use DOMDocument;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\Cache;
 
 class IconComponent extends Component
 {
-    /**
-     * Prefix for cache
-     */
-    private const ICON_ORCHID_CACHE = 'ICON_ORCHID_CACHE_';
-
     /**
      * @var string|null
      */
@@ -97,9 +91,7 @@ class IconComponent extends Component
      */
     public function render()
     {
-        $icon = Cache::rememberForever(self::ICON_ORCHID_CACHE.$this->path, function (){
-            return $this->finder->loadFile($this->path);
-        });
+        $icon = $this->finder->loadFile($this->path);
 
         return $this->setAttributes($icon);
     }
