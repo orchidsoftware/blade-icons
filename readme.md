@@ -9,7 +9,7 @@
 ## Introduction
 
 This is a package for the Laravel framework that allows 
-you to use the Blade component to insert inline svg images.
+you to use the Blade component to insert inline SVG images.
 
 ## Installation
 
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-When calling the method of registering the directory with the first argument, we pass the prefix to call our icons and the second directory where they are located.
+When calling the directory method with the first argument, we pass the prefix to call our icons and the second directory where they are located.
 
 After that, we can call the component in our blade templates:
 
