@@ -87,13 +87,15 @@ class IconComponent extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return Icon
      */
     public function render()
     {
         $icon = $this->finder->loadFile($this->path);
 
-        return $this->setAttributes($icon);
+        $content = $this->setAttributes($icon);
+
+        return new Icon($content);
     }
 
     /**

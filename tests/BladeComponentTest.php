@@ -42,4 +42,18 @@ class BladeComponentTest extends TestUnitCase
         $this->assertStringContainsString('width="2em"', $view);
         $this->assertStringContainsString('height="2em"', $view);
     }
+
+
+    /**
+     * https://github.com/laravel/framework/issues/32254
+     */
+    public function testLongContentComponent(): void
+    {
+        $this->app->make(IconFinder::class)
+            ->registerIconDirectory('empty', __DIR__ . '/stubs');
+
+        $view = view('icon-long-view-content')->render();
+
+        $this->assertEmpty($view);
+    }
 }
