@@ -64,7 +64,7 @@ class IconFinder
     public function loadFile(string $name): ?string
     {
         if ($this->cache->has($name)) {
-            $this->cache->get($name);
+            return $this->cache->get($name);
         }
 
         $prefix = Str::beforeLast($name, '.');
