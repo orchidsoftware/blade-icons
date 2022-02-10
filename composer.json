@@ -4,11 +4,11 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "laravel/framework": "^8.16",
+        "laravel/framework": "^8.16|^9.0",
         "ext-dom": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
+        "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.0"
     },
     "authors": [
