@@ -61,6 +61,70 @@ You can also list some attributes that should be applied to your icon:
     height="2em" />
 ```
 
+### Default Sizes
+
+If you are using icons from the same set, it makes sense to specify a default size value:
+
+```php
+namespace App\Providers;
+
+use Orchid\Icons\IconFinder;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot(IconFinder $iconFinder) : void
+    {
+        $iconFinder
+            ->registerIconDirectory('fa', storage_path('app/fontawesome'))
+            ->setSize('54px', '54px');
+    }
+}
+```
+
+If you use different sets, for example, in the public part of the application and in the admin panel, then you can dynamically change the value in the middleware:
+
+```php
+<?php
+ 
+namespace App\Http\Middleware;
+ 
+use Closure;
+ use Orchid\Icons\IconFinder;
+ 
+class ExampleMiddleware
+{
+    /**
+     * @var \Orchid\Icons\IconFinder 
+     */
+    protected $iconFinder;
+
+    /**
+     * ExampleMiddleware constructor.
+     *
+     * @param IconFinder $iconFinder
+     */
+    public function __construct(IconFinder $iconFinder)
+    {
+        $this->iconFinder = $iconFinder;
+    }
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    { 
+        $iconFinder->setSize('54px', '54px');
+
+        return $next($request);
+    }
+}
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](license.md) for more information.
