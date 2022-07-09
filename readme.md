@@ -85,12 +85,10 @@ class AppServiceProvider extends ServiceProvider
 If you use different sets, for example, in the public part of the application and in the admin panel, then you can dynamically change the value in the middleware:
 
 ```php
-<?php
- 
 namespace App\Http\Middleware;
  
 use Closure;
- use Orchid\Icons\IconFinder;
+use Orchid\Icons\IconFinder;
  
 class ExampleMiddleware
 {
