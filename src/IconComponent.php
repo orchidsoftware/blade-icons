@@ -68,8 +68,8 @@ class IconComponent extends Component
         string $path,
         string $id = null,
         string $class = null,
-        string $width = '1em',
-        string $height = '1em',
+        string $width = null,
+        string $height = null,
         string $role = 'img',
         string $fill = 'currentColor'
     )
@@ -78,8 +78,8 @@ class IconComponent extends Component
         $this->path = $path;
         $this->id = $id;
         $this->class = $class;
-        $this->width = $width;
-        $this->height = $height;
+        $this->width = $width ?? $finder->getDefaultWidth();
+        $this->height = $height ?? $finder->getDefaultHeight();
         $this->role = $role;
         $this->fill = $fill;
     }

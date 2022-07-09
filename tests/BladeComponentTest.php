@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Orchid\Icons\Tests;
 
+use Illuminate\Support\Facades\Blade;
 use Orchid\Icons\IconFinder;
 
 class BladeComponentTest extends TestUnitCase
@@ -55,5 +56,17 @@ class BladeComponentTest extends TestUnitCase
         $view = view('icon-long-view-content')->render();
 
         $this->assertEmpty($view);
+    }
+
+    public function testDefaultIconSize():void
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('foo', __DIR__ . '/stubs/foo');
+
+        $view = Blade::render('<x-orchid-icon path="foo.house" />');
+
+        $this->assertStringContainsString('height="54px"', $view);
+        $this->assertStringContainsString('width="54px"', $view);
     }
 }

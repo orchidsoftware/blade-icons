@@ -15,14 +15,24 @@ class IconFinder
     /**
      * @var Collection
      */
-    private $directories;
+    private Collection $directories;
 
     /**
      * Previously processed icons
      *
      * @var Collection
      */
-    private $cache;
+    private Collection $cache;
+
+    /**
+     * @var string
+     */
+    private string $width = '1em';
+
+    /**
+     * @var string
+     */
+    private string $height = '1em';
 
     /**
      * IconFinder constructor.
@@ -100,5 +110,39 @@ class IconFinder
             ->ignoreUnreadableDirs()
             ->followLinks()
             ->ignoreDotFiles(true);
+    }
+
+    /**
+     * @param string $width
+     * @param string $height
+     *
+     * @return $this
+     */
+    public function setSize(string $width = '1em', string $height = '1em'): IconFinder
+    {
+        $this->width = $width;
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * Return the default width.
+     *
+     * @return string
+     */
+    public function getDefaultWidth(): string
+    {
+        return $this->width;
+    }
+
+    /**
+     * Return the default height.
+     *
+     * @return string
+     */
+    public function getDefaultHeight(): string
+    {
+        return $this->height;
     }
 }
