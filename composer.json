@@ -17,6 +17,9 @@
             "email": "bliz48rus@gmail.com"
         }
     ],
+    "conflict": {
+        "laravel/framework": "<9.36"
+    },
     "autoload": {
         "psr-4": {
             "Orchid\\Icons\\": "src/"
