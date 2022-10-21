@@ -9,6 +9,14 @@ use Orchid\Icons\IconFinder;
 
 class BladeComponentTest extends TestUnitCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan('view:clear');
+    }
+
+
     public function testWithPrefixComponent(): void
     {
         $this->app->make(IconFinder::class)
@@ -69,4 +77,31 @@ class BladeComponentTest extends TestUnitCase
         $this->assertStringContainsString('height="54px"', $view);
         $this->assertStringContainsString('width="54px"', $view);
     }
+
+    public function testMixedIconWithoutPath():void
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('foo', __DIR__ . '/stubs/foo');
+
+        $view = Blade::render('<x-orchid-icon path="foo.regular.address-book" />');
+        $this->assertNotEmpty($view);
+
+        $view = Blade::render('<x-orchid-icon path="regular.address-book" />');
+        $this->assertEmpty($view);
+    }
+
+
+    // 00:00.550
+    // 00:12.832
+    // 00:00.414
+    // 00:00.360, Memory: 44.61 MB
+
+
+
+    // Время выполнения скрипта: 0.1713 сек.
+    // Время выполнения скрипта: 0.1699 сек.
+    // Время выполнения скрипта: 0.1725 сек.
+    // Время выполнения скрипта: 0.1695 сек.
+    // Время выполнения скрипта: 0.1712 сек.
 }
