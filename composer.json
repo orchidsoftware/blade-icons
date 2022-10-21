@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^9.36",
         "ext-dom": "*"
     },
     "require-dev": {
@@ -17,6 +17,10 @@
             "email": "bliz48rus@gmail.com"
         }
     ],
+    "conflict": {
+        "laravel/framework": "<9.36.1",
+        "orchestra/testbench": "<7.11"
+    },
     "autoload": {
         "psr-4": {
             "Orchid\\Icons\\": "src/"
