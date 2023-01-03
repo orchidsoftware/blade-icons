@@ -66,7 +66,7 @@ class BladeComponentTest extends TestUnitCase
         $this->assertEmpty($view);
     }
 
-    public function testDefaultIconSize():void
+    public function testDefaultIconSize(): void
     {
         $this->app->make(IconFinder::class)
             ->setSize('54px', '54px')
@@ -78,7 +78,7 @@ class BladeComponentTest extends TestUnitCase
         $this->assertStringContainsString('width="54px"', $view);
     }
 
-    public function testMixedIconWithoutPath():void
+    public function testMixedIconWithoutPath(): void
     {
         $this->app->make(IconFinder::class)
             ->setSize('54px', '54px')
@@ -89,5 +89,51 @@ class BladeComponentTest extends TestUnitCase
 
         $view = Blade::render('<x-orchid-icon path="regular.address-book" />');
         $this->assertEmpty($view);
+    }
+
+    public function testHtmlAttributes(): void
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
+
+        $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" />');
+        $this->assertNotEmpty($view);
+
+        $this->assertStringContainsString('stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"', $view);
+
+        $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" class="test" stroke-width="3" />');
+
+        $this->assertStringNotContainsString('stroke-width="2"', $view);
+        $this->assertStringContainsString('stroke-width="3"', $view);
+    }
+
+    public function testHtmlAttributesDuplicate(): void
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
+
+        $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" id="2" :id="3" />');
+        $this->assertStringContainsString('id="3"', $view);
+
+        $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" :id="3" id="2" />');
+        $this->assertStringContainsString('id="2"', $view);
+    }
+
+    /**
+     * @return void
+     */
+    public function testAverageSpeed()
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
+
+
+        collect(range(0, 10000))->each(function (){
+            $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" id="2" :id="3" />');
+            $this->assertStringContainsString('id="3"', $view);
+        });
     }
 }

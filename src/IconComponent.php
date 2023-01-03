@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Orchid\Icons;
 
 use DOMDocument;
-use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\View\Component;
+use Illuminate\Support\Collection;
 
 class IconComponent extends Component
 {
-
     /**
      * @var string|null
      */
@@ -55,8 +54,8 @@ class IconComponent extends Component
      * @param string      $path
      * @param string|null $id
      * @param string|null $class
-     * @param string      $width
-     * @param string      $height
+     * @param string|null $width
+     * @param string|null $height
      * @param string      $role
      * @param string      $fill
      */
@@ -82,30 +81,11 @@ class IconComponent extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return string
+     * @return callable
      */
-    public function render()
+    public function render(): callable
     {
-        $factory = $this->factory();
-
-        $factory->addNamespace(
-            '__components__orchid__icons',
-            $directory = Container::getInstance()['config']->get('view.compiled')
-        );
-
-        $hash = sha1(collect($this->extractPublicProperties())->implode('-'));
-
-        if (! is_file($viewFile = $directory.'/'.$hash.'.blade.php')) {
-            if (! is_dir($directory)) {
-                mkdir($directory, 0755, true);
-            }
-
-            $contents = $this->renderIcon();
-
-            file_put_contents($viewFile, $contents);
-        }
-
-        return view('__components__orchid__icons::'.basename($viewFile, '.blade.php'));
+        return fn() => $this->renderIcon();
     }
 
     /**
@@ -141,11 +121,22 @@ class IconComponent extends Component
         /** @var \DOMElement $item */
         $item = Arr::first($dom->getElementsByTagName('svg'));
 
-        collect($this->extractPublicProperties())
-            ->except(['attributes'])
-            ->filter(static fn($value) => is_string($value))
+        $this
+            ->iconsAttributes()
             ->each(static fn(string $value, string $key) => $item->setAttribute($key, $value));
 
         return $dom->saveHTML();
+    }
+
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function iconsAttributes(): Collection
+    {
+        return collect($this->extractPublicProperties())
+            ->except(['attributes'])
+            ->merge($this->attributes?->getAttributes())
+            ->filter(static fn($value) => is_string($value));
     }
 }

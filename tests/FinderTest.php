@@ -35,7 +35,7 @@ class FinderTest extends TestUnitCase
         $this->assertNotNull($icon);
     }
 
-    public function testRegisterSinglenton(): void
+    public function testRegisterSingleton(): void
     {
         $this->getIconFinder()
             ->registerIconDirectory('foo', __DIR__ . '/stubs/foo');
@@ -55,6 +55,7 @@ class FinderTest extends TestUnitCase
         $second = microtime(true);
         $delta_first = $first - $start;
         $delta_second = $second - $first;
+
 
         $this->assertNotNull($iconArrayNotFound[0]);
         $this->assertLessThan($delta_first * 2, $delta_second, '$delta_first: ' . $delta_first . ', $delta_second: ' . $delta_second);
