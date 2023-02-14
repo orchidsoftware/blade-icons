@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "laravel/framework": "^9.36",
+        "laravel/framework": "^9.36 || ^10.0",
         "ext-dom": "*"
     },
     "require-dev": {
