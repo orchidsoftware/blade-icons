@@ -1,4 +1,4 @@
-# Inline SVG Icons For Laravel Blade
+# Inline SVG Icons for Laravel Blade
 
 
 <a href="https://github.com/orchidsoftware/blade-icons/actions"><img src="https://github.com/orchidsoftware/blade-icons/workflows/Tests/badge.svg"></a>
@@ -6,22 +6,20 @@
 <a href="https://packagist.org/packages/orchid/blade-icons"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/orchid/blade-icons.svg"></a>
 
 
-## Introduction
-
-This is a package for the Laravel framework that allows 
-you to use the Blade component to insert inline SVG images.
+This package for the Laravel framework allows you to use Blade components to insert inline SVG images.
 
 ## Installation
 
-Run this at the command line:
+To install this package, run the following command in your command line:
+
 ```php
 $ composer require orchid/blade-icons
 ```
-This will update `composer.json` and install the package into the `vendor/` directory.
 
-## Base Usage
+## Basic Usage
 
-Register a directory with your files in the service provider:
+To register a directory with your files in the service provider, use the following code:
+
 ```php
 namespace App\Providers;
 
@@ -37,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-When calling the directory method with the first argument, we pass the prefix to call our icons and the second directory where they are located.
+When calling the directory method with the first argument, we pass the prefix to call our icons and the second argument is the directory where they are located.
 
 After that, we can call the component in our blade templates:
 
