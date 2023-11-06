@@ -97,7 +97,7 @@ class IconComponent extends Component
         $finder = app()->make(IconFinder::class);
 
         $this->width = $this->width ?? $finder->getDefaultWidth();
-        $this->height = $this->width ?? $finder->getDefaultHeight();
+        $this->height = $this->height ?? $finder->getDefaultHeight();
 
         $icon = $finder->loadFile($this->path);
 
