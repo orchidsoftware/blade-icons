@@ -41,7 +41,7 @@ class IconFinder
     public function registerIconDirectory(string $prefix, string $directory): self
     {
         $this->directories = $this->directories->merge([
-            $prefix => $directory,
+            $prefix => realpath($directory),
         ]);
 
         return $this;
