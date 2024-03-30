@@ -131,9 +131,9 @@ class BladeComponentTest extends TestUnitCase
             ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
 
 
-        collect(range(0, 10000))->each(function (){
-            $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" id="2" :id="3" />');
-            $this->assertStringContainsString('id="3"', $view);
+        collect(range(0, 10000))->each(function (int $key){
+            $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" id="2" :id="$id" />', ['id' => $key]);
+            $this->assertStringContainsString('id="'.$key, $view);
         });
     }
 }

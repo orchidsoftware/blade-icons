@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Orchid\Icons;
 
-use DOMDocument;
-use Illuminate\Support\Arr;
 use Illuminate\View\Component;
-use Illuminate\Support\Collection;
 
 class IconComponent extends Component
 {
@@ -49,6 +46,11 @@ class IconComponent extends Component
     public $path;
 
     /**
+     * @var \Orchid\Icons\IconFinder
+     */
+    protected IconFinder $finder;
+
+    /**
      * Create a new component instance.
      *
      * @param string      $path
@@ -60,22 +62,24 @@ class IconComponent extends Component
      * @param string      $fill
      */
     public function __construct(
+        IconFinder $finder,
         string $path,
         string $id = null,
         string $class = null,
         string $width = null,
         string $height = null,
         string $role = 'img',
-        string $fill = 'currentColor'
+        string $fill = 'currentColor',
     )
     {
         $this->path = $path;
         $this->id = $id;
         $this->class = $class;
-        $this->width = $width;
-        $this->height = $height;
+        $this->width = $width ?? $finder->getDefaultWidth();
+        $this->height = $height ?? $finder->getDefaultHeight();
         $this->role = $role;
         $this->fill = $fill;
+        $this->finder = $finder;
     }
 
     /**
@@ -85,58 +89,11 @@ class IconComponent extends Component
      */
     public function render(): callable
     {
-        return fn() => $this->renderIcon();
-    }
-
-    /**
-     * @return string
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     */
-    private function renderIcon(): string
-    {
-        $finder = app()->make(IconFinder::class);
-
-        $this->width = $this->width ?? $finder->getDefaultWidth();
-        $this->height = $this->height ?? $finder->getDefaultHeight();
-
-        $icon = $finder->loadFile($this->path);
-
-        return $this->setAttributes($icon);
-    }
-
-    /**
-     * @param string|null $icon
-     *
-     * @return string
-     */
-    private function setAttributes(?string $icon): string
-    {
-        if ($icon === null) {
-            return '';
-        }
-
-        $dom = new DOMDocument();
-        $dom->loadXML($icon);
-
-        /** @var \DOMElement $item */
-        $item = Arr::first($dom->getElementsByTagName('svg'));
-
-        $this
-            ->iconsAttributes()
-            ->each(static fn(string $value, string $key) => $item->setAttribute($key, $value));
-
-        return $dom->saveHTML();
-    }
-
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function iconsAttributes(): Collection
-    {
-        return collect($this->extractPublicProperties())
-            ->except(['attributes'])
-            ->merge($this->attributes?->getAttributes())
-            ->filter(static fn($value) => is_string($value));
+        return function (array $data) {
+            return view('blade-icon::icon', [
+                'html' => $this->finder->loadFile($this->path),
+                'data' => collect($this->extractPublicProperties())->merge($data['attributes'])->filter(fn($value) => is_string($value)),
+            ]);
+        };
     }
 }
