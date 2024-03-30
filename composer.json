@@ -10,6 +10,9 @@
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0"
     },
+    "conflict": {
+        "laravel/framework": "<10.30"
+    },
     "authors": [
         {
             "name": "tabuna",
