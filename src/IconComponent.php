@@ -89,10 +89,10 @@ class IconComponent extends Component
      */
     public function render(): callable
     {
-        return function (array $data) {
+        return function (array $data = []) {
             return view('blade-icon::icon', [
                 'html' => $this->finder->loadFile($this->path),
-                'data' => collect($this->extractPublicProperties())->merge($data['attributes'])->filter(fn($value) => is_string($value)),
+                'data' => collect($this->extractPublicProperties())->merge($data['attributes'] ?? [])->filter(fn($value) => is_string($value)),
             ]);
         };
     }
