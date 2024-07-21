@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orchid\Icons\Tests;
 
 use Illuminate\Support\Facades\Blade;
+use Orchid\Icons\IconComponent;
 use Orchid\Icons\IconFinder;
 
 class BladeComponentTest extends TestUnitCase
@@ -15,7 +16,6 @@ class BladeComponentTest extends TestUnitCase
 
         $this->artisan('view:clear');
     }
-
 
     public function testWithPrefixComponent(): void
     {
@@ -121,19 +121,34 @@ class BladeComponentTest extends TestUnitCase
         $this->assertStringContainsString('id="2"', $view);
     }
 
-    /**
-     * @return void
-     */
-    public function testAverageSpeed()
+    public function testAverageSpeed(): void
     {
         $this->app->make(IconFinder::class)
             ->setSize('54px', '54px')
             ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
 
 
-        collect(range(0, 10000))->each(function (int $key){
+        collect(range(0, 10000))->each(function (int $key) {
             $view = Blade::render('<x-orchid-icon path="feather.alert-triangle" id="2" :id="$id" />', ['id' => $key]);
-            $this->assertStringContainsString('id="'.$key, $view);
+            $this->assertStringContainsString('id="' . $key, $view);
         });
     }
+
+    public function testStaticRender():void
+    {
+        $this->app->make(IconFinder::class)
+            ->setSize('54px', '54px')
+            ->registerIconDirectory('feather', __DIR__ . '/stubs/feather');
+
+        $view = IconComponent::make(
+            path: 'feather.alert-triangle',
+            id: 2,
+            class: 'test',
+        );
+
+        $this->assertStringContainsString('id="2"', $view->toHtml());
+        $this->assertStringContainsString('class="test"', $view->toHtml());
+        $this->assertStringContainsString('stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"', (string) $view);
+    }
+
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orchid\Icons;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class IconComponent extends Component
 {
@@ -95,5 +96,15 @@ class IconComponent extends Component
                 'data' => collect($this->extractPublicProperties())->merge($data['attributes'] ?? [])->filter(fn($value) => is_string($value)),
             ]);
         };
+    }
+
+    /**
+     * @param ...$params
+     *
+     * @return \Illuminate\View\View
+     */
+    public static function make(...$params): View
+    {
+        return resolve(static::class, $params)->render()();
     }
 }

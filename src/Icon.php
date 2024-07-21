@@ -4,7 +4,6 @@ namespace Orchid\Icons;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
-use DOMDocument;
 use Stringable;
 
 class Icon extends HtmlString implements Stringable
