@@ -59,6 +59,16 @@ You can also list some attributes that should be applied to your icon:
     height="2em" />
 ```
 
+Static call from a PHP class:
+
+```php
+IconComponent::make(
+    path: 'fa.home',
+    id: 101,
+    class: 'red',
+);
+```
+
 ### Default Sizes
 
 If you are using icons from the same set, it makes sense to specify a default size value:
