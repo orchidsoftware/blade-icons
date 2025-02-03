@@ -13,13 +13,13 @@ class Icon extends HtmlString implements Stringable
      *
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return empty($this->html);
     }
 
     /**
-     * @param string|null $icon
+     * @param iterable $attributes
      *
      * @return string
      */

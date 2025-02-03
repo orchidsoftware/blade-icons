@@ -10,77 +10,30 @@ use Illuminate\View\View;
 class IconComponent extends Component
 {
     /**
-     * @var string|null
-     */
-    public $class;
-
-    /**
-     * @var string
-     */
-    public $width;
-
-    /**
-     * @var string
-     */
-    public $height;
-
-    /**
-     * @var string
-     */
-    public $role;
-
-    /**
-     * @var string
-     */
-    public $fill;
-
-    /**
-     * @var string
-     */
-    public $id;
-
-    /**
-     * Icon tag
-     *
-     * @var string
-     */
-    public $path;
-
-    /**
-     * @var \Orchid\Icons\IconFinder
-     */
-    protected IconFinder $finder;
-
-    /**
      * Create a new component instance.
      *
-     * @param string      $path
+     * @param IconFinder $finder
+     * @param string $path
      * @param string|null $id
      * @param string|null $class
      * @param string|null $width
      * @param string|null $height
-     * @param string      $role
-     * @param string      $fill
+     * @param string|null $role
+     * @param string|null $fill
      */
     public function __construct(
-        IconFinder $finder,
-        string $path,
-        string $id = null,
-        string $class = null,
-        string $width = null,
-        string $height = null,
-        string $role = 'img',
-        string $fill = 'currentColor',
+        protected IconFinder $finder,
+        public string $path,
+        public ?string $id = null,
+        public ?string $class = null,
+        public ?string $width = null,
+        public ?string $height = null,
+        public ?string $role = 'img',
+        public ?string $fill = 'currentColor',
     )
     {
-        $this->path = $path;
-        $this->id = $id;
-        $this->class = $class;
-        $this->width = $width ?? $finder->getDefaultWidth();
-        $this->height = $height ?? $finder->getDefaultHeight();
-        $this->role = $role;
-        $this->fill = $fill;
-        $this->finder = $finder;
+        $this->width ??= $finder->getDefaultWidth();
+        $this->height ??= $finder->getDefaultHeight();
     }
 
     /**
@@ -91,9 +44,13 @@ class IconComponent extends Component
     public function render(): callable
     {
         return function (array $data = []) {
+            $attributes = $data['attributes'] ?? [];
+
             return view('blade-icon::icon', [
                 'html' => $this->finder->loadFile($this->path),
-                'data' => collect($this->extractPublicProperties())->merge($data['attributes'] ?? [])->filter(fn($value) => is_string($value)),
+                'data' => collect($this->extractPublicProperties())
+                    ->merge($attributes)
+                    ->filter(fn($value) => is_string($value)),
             ]);
         };
     }

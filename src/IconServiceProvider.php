@@ -14,9 +14,7 @@ class IconServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(IconFinder::class, static function () {
-            return new IconFinder();
-        });
+        $this->app->singleton(IconFinder::class, static fn() => new IconFinder());
 
         $this->loadViewsFrom(__DIR__.'/../views/', 'blade-icon');
 
