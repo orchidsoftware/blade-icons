@@ -81,7 +81,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function boot(IconFinder $iconFinder) : void
+    public function boot(IconFinder $iconFinder): void
     {
         $iconFinder
             ->registerIconDirectory('fa', storage_path('app/fontawesome'))
@@ -94,37 +94,23 @@ If you use different sets, for example, in the public part of the application an
 
 ```php
 namespace App\Http\Middleware;
- 
+
 use Closure;
+use Illuminate\Http\Request;
 use Orchid\Icons\IconFinder;
- 
+
 class ExampleMiddleware
 {
-    /**
-     * @var \Orchid\Icons\IconFinder 
-     */
-    protected $iconFinder;
-
-    /**
-     * ExampleMiddleware constructor.
-     *
-     * @param IconFinder $iconFinder
-     */
-    public function __construct(IconFinder $iconFinder)
-    {
-        $this->iconFinder = $iconFinder;
-    }
+    public function __construct(
+        private IconFinder $iconFinder
+    ) {}
 
     /**
      * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
      */
-    public function handle($request, Closure $next)
-    { 
-        $iconFinder->setSize('54px', '54px');
+    public function handle(Request $request, Closure $next): mixed
+    {
+        $this->iconFinder->setSize('54px', '54px');
 
         return $next($request);
     }
